@@ -1,5 +1,7 @@
 package tech.panbin.shoppingcart.gson;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 
 public class BooksGsonBean {
+
 
     /**
      * rating : {"max":10,"numRaters":2013,"average":"9.1","min":0}
@@ -37,57 +40,57 @@ public class BooksGsonBean {
      * ebook_price : 25.00
      */
 
-    @com.google.gson.annotations.SerializedName("rating")
+    @SerializedName("rating")
     private RatingBean rating;
-    @com.google.gson.annotations.SerializedName("subtitle")
+    @SerializedName("subtitle")
     private String subtitle;
-    @com.google.gson.annotations.SerializedName("pubdate")
+    @SerializedName("pubdate")
     private String pubdate;
-    @com.google.gson.annotations.SerializedName("origin_title")
+    @SerializedName("origin_title")
     private String originTitle;
-    @com.google.gson.annotations.SerializedName("image")
+    @SerializedName("image")
     private String image;
-    @com.google.gson.annotations.SerializedName("binding")
+    @SerializedName("binding")
     private String binding;
-    @com.google.gson.annotations.SerializedName("catalog")
+    @SerializedName("catalog")
     private String catalog;
-    @com.google.gson.annotations.SerializedName("pages")
+    @SerializedName("pages")
     private String pages;
-    @com.google.gson.annotations.SerializedName("images")
+    @SerializedName("images")
     private ImagesBean images;
-    @com.google.gson.annotations.SerializedName("alt")
+    @SerializedName("alt")
     private String alt;
-    @com.google.gson.annotations.SerializedName("id")
+    @SerializedName("id")
     private String id;
-    @com.google.gson.annotations.SerializedName("publisher")
+    @SerializedName("publisher")
     private String publisher;
-    @com.google.gson.annotations.SerializedName("isbn10")
+    @SerializedName("isbn10")
     private String isbn10;
-    @com.google.gson.annotations.SerializedName("isbn13")
+    @SerializedName("isbn13")
     private String isbn13;
-    @com.google.gson.annotations.SerializedName("title")
+    @SerializedName("title")
     private String title;
-    @com.google.gson.annotations.SerializedName("url")
+    @SerializedName("url")
     private String url;
-    @com.google.gson.annotations.SerializedName("alt_title")
+    @SerializedName("alt_title")
     private String altTitle;
-    @com.google.gson.annotations.SerializedName("author_intro")
+    @SerializedName("author_intro")
     private String authorIntro;
-    @com.google.gson.annotations.SerializedName("summary")
+    @SerializedName("summary")
     private String summary;
-    @com.google.gson.annotations.SerializedName("price")
+    @SerializedName("price")
     private String price;
-    @com.google.gson.annotations.SerializedName("series")
+    @SerializedName("series")
     private SeriesBean series;
-    @com.google.gson.annotations.SerializedName("ebook_url")
+    @SerializedName("ebook_url")
     private String ebookUrl;
-    @com.google.gson.annotations.SerializedName("ebook_price")
+    @SerializedName("ebook_price")
     private String ebookPrice;
-    @com.google.gson.annotations.SerializedName("author")
+    @SerializedName("author")
     private List<String> author;
-    @com.google.gson.annotations.SerializedName("tags")
+    @SerializedName("tags")
     private List<TagsBean> tags;
-    @com.google.gson.annotations.SerializedName("translator")
+    @SerializedName("translator")
     private List<String> translator;
 
     public RatingBean getRating() {
@@ -306,13 +309,13 @@ public class BooksGsonBean {
          * min : 0
          */
 
-        @com.google.gson.annotations.SerializedName("max")
+        @SerializedName("max")
         private int max;
-        @com.google.gson.annotations.SerializedName("numRaters")
+        @SerializedName("numRaters")
         private int numRaters;
-        @com.google.gson.annotations.SerializedName("average")
+        @SerializedName("average")
         private String average;
-        @com.google.gson.annotations.SerializedName("min")
+        @SerializedName("min")
         private int min;
 
         public int getMax() {
@@ -355,11 +358,11 @@ public class BooksGsonBean {
          * medium : https://img3.doubanio.com/mpic/s1631790.jpg
          */
 
-        @com.google.gson.annotations.SerializedName("small")
+        @SerializedName("small")
         private String small;
-        @com.google.gson.annotations.SerializedName("large")
+        @SerializedName("large")
         private String large;
-        @com.google.gson.annotations.SerializedName("medium")
+        @SerializedName("medium")
         private String medium;
 
         public String getSmall() {
@@ -393,9 +396,9 @@ public class BooksGsonBean {
          * title : 图灵程序设计丛书·Web开发系列
          */
 
-        @com.google.gson.annotations.SerializedName("id")
+        @SerializedName("id")
         private String id;
-        @com.google.gson.annotations.SerializedName("title")
+        @SerializedName("title")
         private String title;
 
         public String getId() {
@@ -422,11 +425,11 @@ public class BooksGsonBean {
          * title : UNIX
          */
 
-        @com.google.gson.annotations.SerializedName("count")
+        @SerializedName("count")
         private int count;
-        @com.google.gson.annotations.SerializedName("name")
+        @SerializedName("name")
         private String name;
-        @com.google.gson.annotations.SerializedName("title")
+        @SerializedName("title")
         private String title;
 
         public int getCount() {

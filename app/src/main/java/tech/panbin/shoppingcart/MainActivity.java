@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -50,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
         myWebView.setWebViewClient(new WebViewClient());
         myWebView.loadUrl("file:///android_asset/www/list.html");
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        CartData.saveCartData(this);
+//        String data = mBookInCarts.get(0).getTitle();
+        String data = CartData.getBooksInCartList().get(0).getTitle();
+        Log.e("onPause:CartData",data);
     }
 
     @Override

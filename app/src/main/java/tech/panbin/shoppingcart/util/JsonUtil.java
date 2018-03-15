@@ -11,7 +11,6 @@ import java.util.List;
 
 import tech.panbin.shoppingcart.gson.BooksGsonBean;
 import tech.panbin.shoppingcart.model.BookInCart;
-import tech.panbin.shoppingcart.model.CartDataModel;
 
 /**
  * Created by PanBin on 2018/03/15.
@@ -34,7 +33,7 @@ public class JsonUtil {
         return null;
     }
 
-    public static String handleBookCartGsonToJsonString(List<BookInCart> mBookInCarts){
+    public static String handleCartDataToJsonString(List<BookInCart> mBookInCarts){
         Gson gson = new Gson();
         String jsonData = gson.toJson(mBookInCarts);
         return jsonData;
@@ -45,4 +44,5 @@ public class JsonUtil {
         ArrayList<BookInCart> bookInCarts = gson.fromJson(data, ArrayList.class);
         return bookInCarts;
     }
+
 }

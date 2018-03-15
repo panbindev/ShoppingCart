@@ -5,8 +5,6 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-import java.util.Map;
-
 import tech.panbin.shoppingcart.data.CartData;
 import tech.panbin.shoppingcart.gson.BooksGsonBean;
 import tech.panbin.shoppingcart.util.JsonUtil;
@@ -34,19 +32,21 @@ public class CartWebInterface {
         // TODO: 2018/03/15 addBookToCart在showToast前就看不见toast了，原因未知
         @JavascriptInterface
         public void addToCart(String bookJson){
-//                Log.e("webJson",bookJson);
+//                Log.d("webJson",bookJson);
 //                this.showToast("添加成功");
                 BooksGsonBean booksGsonBean = JsonUtil.handleBookJsonToGson(bookJson);
+
                 String message = "《" + booksGsonBean.getTitle() + "》"+"添加成功";
                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+
                 CartData.addBookToCart(booksGsonBean);
+//                Log.d("webGson",booksGsonBean.getTitle());
         }
 
         @JavascriptInterface
         public String loadCartData(){
-                String data = JsonUtil.handleBookCartGsonToJsonString(CartData.mBookInCarts);
+                String data = JsonUtil.handleCartDataToJsonString(CartData.getBooksInCartList());
                 Log.e("CartData",data);
                 return data;
         }
-
 }
