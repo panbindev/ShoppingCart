@@ -20,11 +20,9 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_list:
-//                    mTextMessage.setText(R.string.title_list);
-                        myWebView.loadUrl("file:///android_asset/www/List.html");
+                    myWebView.loadUrl("file:///android_asset/www/List.html");
                     return true;
                 case R.id.navigation_cart:
-//                    mTextMessage.setText(R.string.title_cart);
                     myWebView.loadUrl("file:///android_asset/www/Cart.html");
                     return true;
             }
