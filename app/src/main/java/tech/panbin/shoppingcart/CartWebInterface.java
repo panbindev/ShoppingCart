@@ -8,12 +8,12 @@ import android.widget.Toast;
  * Created by PanBin on 2018/03/15.
  */
 
-public class ListWebInterface {
+public class CartWebInterface {
 
         Context mContext;
 
         /** Instantiate the interface and set the context */
-        ListWebInterface(Context c) {
+        CartWebInterface(Context c) {
             mContext = c;
         }
 
