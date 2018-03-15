@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_list:
-                    myWebView.loadUrl("file:///android_asset/www/List.html");
+                    myWebView.loadUrl("file:///android_asset/www/list.html");
                     return true;
                 case R.id.navigation_cart:
-                    myWebView.loadUrl("file:///android_asset/www/Cart.html");
+                    myWebView.loadUrl("file:///android_asset/www/cart.html");
                     return true;
             }
             return false;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         myWebView.addJavascriptInterface(new CartWebInterface(this), "Android");
         myWebView.setWebViewClient(new WebViewClient());
-        myWebView.loadUrl("file:///android_asset/www/List.html");
+        myWebView.loadUrl("file:///android_asset/www/list.html");
 
     }
 
