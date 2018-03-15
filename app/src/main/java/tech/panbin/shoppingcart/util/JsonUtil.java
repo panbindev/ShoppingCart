@@ -31,20 +31,11 @@ public class JsonUtil {
         return null;
     }
 
-    // TODO: 2018/03/15
     public static String handleBookCartGson(List<BookInCart> mBookInCarts){
 
-//        try {
-//            JSONObject jsonObject = new JSONObject();
-//
-//            String BookContent = jsonObject.toString();
-//
-//            return new Gson().fromJson(BookContent, BooksGsonBean.class);
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-        return null;
+        Gson gson = new Gson();
+        String jsonData = gson.toJson(mBookInCarts);
+        return jsonData;
     }
 
 }

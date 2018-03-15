@@ -60,8 +60,10 @@
 
 
 	function addToCart(obj){
-
-		Android.showToast("点击"+obj.id+"成功");
+		var data = jsonData.books[obj.id].title;
+		<!--Android.addToCart(data);-->
+		<!--Android.showToast("点击"+obj.id+"成功");-->
+		Android.showToast(data);
 	}
 </script>
 

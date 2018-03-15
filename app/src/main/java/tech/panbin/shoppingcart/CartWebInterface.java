@@ -1,6 +1,7 @@
 package tech.panbin.shoppingcart;
 
 import android.content.Context;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
@@ -30,8 +31,11 @@ public class CartWebInterface {
 
         @JavascriptInterface
         public void addToCart(String bookJson){
+
+                Log.e("webJson",bookJson);
                 CartData.addBookToCart(bookJson);
                 showToast("添加成功");
+                Log.e("webJson",bookJson);
         }
 
 }
