@@ -60,7 +60,7 @@
 
 
 	function addToCart(obj){
-		var data = jsonData.books[obj.id].title;
+		var data = JSON.stringify(jsonData.books[obj.id]);
 		<!--Android.addToCart(data);-->
 		<!--Android.showToast("点击"+obj.id+"成功");-->
 		Android.showToast(data);
