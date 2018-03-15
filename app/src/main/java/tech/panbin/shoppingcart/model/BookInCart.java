@@ -7,7 +7,8 @@ import tech.panbin.shoppingcart.gson.BooksGsonBean;
  */
 
 public class BookInCart extends BooksGsonBean {
-    private int bookNumber;
+
+    private int bookNumber = 0;//want to buy
 
     public int getBookNumber() {
         return bookNumber;
@@ -15,5 +16,9 @@ public class BookInCart extends BooksGsonBean {
 
     public void setBookNumber(int mBookNumber) {
         bookNumber = mBookNumber;
+    }
+
+    public void addBookNumber(){
+        this.bookNumber++;
     }
 }

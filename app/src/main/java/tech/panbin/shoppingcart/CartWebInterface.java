@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import java.util.Map;
 
+import tech.panbin.shoppingcart.data.CartData;
+
 /**
  * Created by PanBin on 2018/03/15.
  */
@@ -13,13 +15,6 @@ import java.util.Map;
 public class CartWebInterface {
 
         Context mContext;
-
-        private String bookId;
-
-        private int bookNumber;
-
-        public static Map<String,Integer> BOOKS_CART_MAP;
-
 
 
         /** Instantiate the interface and set the context */
@@ -31,6 +26,12 @@ public class CartWebInterface {
         @JavascriptInterface
         public void showToast(String toast) {
             Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+        }
+
+        @JavascriptInterface
+        public void addToCart(String bookJson){
+                CartData.addBookToCart(bookJson);
+                showToast("添加成功");
         }
 
 }
