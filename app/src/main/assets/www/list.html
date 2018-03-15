@@ -51,14 +51,17 @@
 				+jsonData.books[i].author[0]
 				+'</div></td></tr><tr><td>定价</td><td>'
 				+jsonData.books[i].price
-				+'</td></tr><tr><td></td><td><button onclick="addToCart()">添加到购物车</button></td></tr></table><br>');
+				+'</td></tr><tr><td></td><td><button id="'
+				+i
+				+'" onclick="addToCart(this)">添加到购物车</button></td></tr></table><br>');
 		}
 
 	}
 
 
-	function addToCart(){
-		Android.showToast("点击成功");
+	function addToCart(obj){
+
+		Android.showToast("点击"+obj.id+"成功");
 	}
 </script>
 
