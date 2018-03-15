@@ -31,7 +31,7 @@ public class JsonUtil {
         return null;
     }
 
-    public static String handleBookCartGson(List<BookInCart> mBookInCarts){
+    public static String handleBookCartGsonToString(List<BookInCart> mBookInCarts){
 
         Gson gson = new Gson();
         String jsonData = gson.toJson(mBookInCarts);

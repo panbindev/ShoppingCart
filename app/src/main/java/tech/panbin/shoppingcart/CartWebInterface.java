@@ -8,6 +8,8 @@ import android.widget.Toast;
 import java.util.Map;
 
 import tech.panbin.shoppingcart.data.CartData;
+import tech.panbin.shoppingcart.gson.BooksGsonBean;
+import tech.panbin.shoppingcart.util.JsonUtil;
 
 /**
  * Created by PanBin on 2018/03/15.
@@ -29,13 +31,20 @@ public class CartWebInterface {
             Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
         }
 
+        // TODO: 2018/03/15 addBookToCart在showToast前就看不见toast了，原因未知
         @JavascriptInterface
         public void addToCart(String bookJson){
+//                Log.e("webJson",bookJson);
+//                this.showToast("添加成功");
+                BooksGsonBean booksGsonBean = JsonUtil.handleBookJsonToGson(bookJson);
+                String message = "《" + booksGsonBean.getTitle() + "》"+"添加成功";
+                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+                CartData.addBookToCart(booksGsonBean);
+        }
 
-                Log.e("webJson",bookJson);
-                CartData.addBookToCart(bookJson);
-                showToast("添加成功");
-                Log.e("webJson",bookJson);
+        @JavascriptInterface
+        public void loadCartData(){
+                String data = JsonUtil.handleBookCartGsonToString(CartData.mBookInCarts);
         }
 
 }

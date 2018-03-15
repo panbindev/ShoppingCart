@@ -61,9 +61,9 @@
 
 	function addToCart(obj){
 		var data = JSON.stringify(jsonData.books[obj.id]);
-		<!--Android.addToCart(data);-->
-		<!--Android.showToast("点击"+obj.id+"成功");-->
-		Android.showToast(data);
+		Android.addToCart(data);
+		<!--Android.showToast("《" + jsonData.books[obj.id].title + "》"+"添加成功");-->
+		<!--Android.showToast(data);-->
 	}
 </script>
 

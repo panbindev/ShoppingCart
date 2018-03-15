@@ -31,6 +31,7 @@ public class CartData {
             if(mBookInCarts.get(i).equals(bookId)){
                 isInCart = true;
                 mBookInCarts.get(i).addBookNumber();
+                break;
             }
         }
 
