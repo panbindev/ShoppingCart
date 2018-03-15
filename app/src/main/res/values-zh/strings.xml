@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">商店</string>
+    <string name="title_home">主页</string>
+    <string name="title_dashboard">仪表盘</string>
+    <string name="title_notifications">提示</string>
+    <string name="title_list">商品列表</string>
+    <string name="title_cart">购物车</string>
+</resources>
