@@ -5,10 +5,13 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.panbin.shoppingcart.gson.BooksGsonBean;
 import tech.panbin.shoppingcart.model.BookInCart;
+import tech.panbin.shoppingcart.model.CartDataModel;
 
 /**
  * Created by PanBin on 2018/03/15.
@@ -31,11 +34,15 @@ public class JsonUtil {
         return null;
     }
 
-    public static String handleBookCartGsonToString(List<BookInCart> mBookInCarts){
-
+    public static String handleBookCartGsonToJsonString(List<BookInCart> mBookInCarts){
         Gson gson = new Gson();
         String jsonData = gson.toJson(mBookInCarts);
         return jsonData;
     }
 
+    public static List<BookInCart> handleStringDataToList(String data){
+        Gson gson = new Gson();
+        ArrayList<BookInCart> bookInCarts = gson.fromJson(data, ArrayList.class);
+        return bookInCarts;
+    }
 }

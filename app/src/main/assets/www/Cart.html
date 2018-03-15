@@ -5,7 +5,7 @@
     <title>购物车</title>
 </head>
 
-<body onload="Android.loadData()">
+<body onload="loadData()">
 <table>
     <tr>
         <td rowspan="3"><input type="checkbox" name="buy"></td>
@@ -16,17 +16,46 @@
         <td>59.00元</td>
     </tr>
     <tr>
-        <td><button>-</button><input type="text" name="number" value="1" size="3" Maxlength="5"><button>+</button></td>
+        <td><button>-</button><input id="1" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;"><button>+</button></td>
+    </tr>
+</table><br>
+
+<table>
+    <tr>
+        <td rowspan="3"><input type="checkbox" name="buy"></td>
+        <td rowspan="3"><img src="https://img3.doubanio.com/spic/s1958902.jpg" height=100px width=85px ></td>
+        <td>JavaScript DOM编程艺术</td>
+    </tr>
+    <tr>
+        <td>39.00元</td>
+    </tr>
+    <tr>
+        <td><button>-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;"><button>+</button></td>
     </tr>
 </table><br>
 
 <script type="text/javascript">
+
+	var price[20];
+	var jsonData;
+
 	function loadData() {
-		var i=0;
-		for(i=0;i<20;i++)
-		{
-			document.write();
-		}
+		var data = Android.loadCartData();
+		document.write("data");
+
+//		var i=0;
+//		for(i=0;i<20;i++)
+//		{
+//
+//		}
+
+	}
+
+	function addNumber(obj){
+//		number = event
+	}
+
+	function subNumber(obj){
 
 	}
 </script>

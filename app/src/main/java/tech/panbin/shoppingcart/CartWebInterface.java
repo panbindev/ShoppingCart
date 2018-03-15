@@ -43,8 +43,10 @@ public class CartWebInterface {
         }
 
         @JavascriptInterface
-        public void loadCartData(){
-                String data = JsonUtil.handleBookCartGsonToString(CartData.mBookInCarts);
+        public String loadCartData(){
+                String data = JsonUtil.handleBookCartGsonToJsonString(CartData.mBookInCarts);
+                Log.e("CartData",data);
+                return data;
         }
 
 }
