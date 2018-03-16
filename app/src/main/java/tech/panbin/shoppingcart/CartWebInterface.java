@@ -1,5 +1,6 @@
 package tech.panbin.shoppingcart;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -16,6 +17,7 @@ import static android.content.ContentValues.TAG;
  * Created by PanBin on 2018/03/15.
  */
 
+@SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
 public class CartWebInterface {
 
         Context mContext;
@@ -61,7 +63,8 @@ public class CartWebInterface {
         @JavascriptInterface
         public String loadCartData(){
                 String data = JsonUtil.handleCartDataToJsonString(CartData.getBooksInCartList());
-                Log.e("CartData",data);
+                Log.d("webLoadData",data);
+                Log.d("webLoadData", "demo");
                 return data;
         }
 }
