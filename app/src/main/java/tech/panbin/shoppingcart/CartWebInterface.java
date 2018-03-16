@@ -6,6 +6,8 @@ import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
+import java.util.List;
+
 import tech.panbin.shoppingcart.data.CartData;
 import tech.panbin.shoppingcart.gson.BooksGsonBean;
 import tech.panbin.shoppingcart.model.BookInCart;
@@ -36,6 +38,7 @@ public class CartWebInterface {
 
         // done: 2018/03/15 addBookToCart在showToast前就看不见toast了，原因未知
         /*原因查明：BookInCart类中，构造方法嵌套使用有误，造成实例化失败*/
+        /*由商品列表页签调用*/
         @JavascriptInterface
         public void addToCart(String bookJson){
 //                Log.d("webJson",bookJson);
@@ -66,5 +69,17 @@ public class CartWebInterface {
                 Log.d("webLoadData",data);
                 Log.d("webLoadData", "demo");
                 return data;
+        }
+
+        @JavascriptInterface
+        public void alterProductNumber(String bookJson){
+                BookInCart bookInCart = JsonUtil.handleJsonStringToBookInCart(bookJson);
+                int newNumber = bookInCart.getBookNumber();
+                CartData.addBookToCart(bookInCart,newNumber);
+        }
+
+        @JavascriptInterface
+        public String countPrice(String selectedBookIdListJson){
+                return null;
         }
 }

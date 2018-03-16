@@ -45,4 +45,10 @@ public class JsonUtil {
         return bookInCarts;
     }
 
+    public static BookInCart handleJsonStringToBookInCart(String data){
+        Gson gson = new Gson();
+        BookInCart bookInCart = gson.fromJson(data, BookInCart.class);
+        return bookInCart;
+    }
+
 }

@@ -60,7 +60,7 @@ public final class CartData {
         addBookToCart(bookInCart,1);
     }
 
-    /*n为负数表示减*/
+    /*n为需要设定的数目*/
     public static void addBookToCart(BookInCart bookInCart,int n){
         String bookId = bookInCart.getId();
 
@@ -70,7 +70,7 @@ public final class CartData {
         }
         else{
             int position = BOOKS_IN_CARS_MAP.get(bookId);
-            BOOKS_IN_CART_LIST.get(position).addBookNumber(n);
+            BOOKS_IN_CART_LIST.get(position).setBookNumber(n);
         }
     }
 
@@ -126,4 +126,5 @@ public final class CartData {
     public static void setBooksInCarsMap(Map<String, Integer> mBooksInCarsMap) {
         BOOKS_IN_CARS_MAP = mBooksInCarsMap;
     }
+
 }
