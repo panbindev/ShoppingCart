@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
         myWebView.addJavascriptInterface(new CartWebInterface(this), "Android");
         myWebView.setWebViewClient(new WebViewClient());
         myWebView.loadUrl("file:///android_asset/www/list.html");
-
-
     }
 
     @Override
