@@ -2,10 +2,8 @@ package tech.panbin.shoppingcart.util;
 
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +16,7 @@ import tech.panbin.shoppingcart.model.BookInCart;
 
 public class JsonUtil {
 
+    /*商品列表界面Json数据，Gson解析*/
     public static BooksGsonBean handleBookJsonToGson(String bookJson){
 
         try {
@@ -33,11 +32,13 @@ public class JsonUtil {
         return null;
     }
 
+    /*传数据给webView*/
     public static String handleCartDataToJsonString(List<BookInCart> mBookInCarts){
         Gson gson = new Gson();
         String jsonData = gson.toJson(mBookInCarts);
         return jsonData;
     }
+
 
     public static List<BookInCart> handleStringDataToList(String data){
         Gson gson = new Gson();
@@ -45,10 +46,18 @@ public class JsonUtil {
         return bookInCarts;
     }
 
+    /*解析与webview交互时收到的String数据*/
     public static BookInCart handleJsonStringToBookInCart(String data){
         Gson gson = new Gson();
         BookInCart bookInCart = gson.fromJson(data, BookInCart.class);
         return bookInCart;
+    }
+
+    /*把“59.00元”的字符串转为double型的"59.00"*/
+    public static double handleGsonPriceToDouble(String gsonPrice){
+        String price = gsonPrice.substring(0,gsonPrice.length()-1);
+        double newPrice = Double.parseDouble(price);
+        return newPrice;
     }
 
 }
