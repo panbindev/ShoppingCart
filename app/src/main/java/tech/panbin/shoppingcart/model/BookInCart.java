@@ -28,7 +28,11 @@ public class BookInCart {
 
     /*购物车内数量0无意义，至少为1*/
     public BookInCart(BooksGsonBean mGsonBean) {
-        new BookInCart(mGsonBean,1);
+        this.id = mGsonBean.getId();
+        this.title = mGsonBean.getTitle();
+        this.price = mGsonBean.getPrice();
+        this.coverPictureUrl = mGsonBean.getImages().getSmall();
+        this.bookNumber = 1;
     }
 
     public String getId() {

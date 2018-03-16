@@ -7,7 +7,10 @@ import android.widget.Toast;
 
 import tech.panbin.shoppingcart.data.CartData;
 import tech.panbin.shoppingcart.gson.BooksGsonBean;
+import tech.panbin.shoppingcart.model.BookInCart;
 import tech.panbin.shoppingcart.util.JsonUtil;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by PanBin on 2018/03/15.
@@ -29,7 +32,8 @@ public class CartWebInterface {
             Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
         }
 
-        // TODO: 2018/03/15 addBookToCart在showToast前就看不见toast了，原因未知
+        // done: 2018/03/15 addBookToCart在showToast前就看不见toast了，原因未知
+        /*原因查明：BookInCart类中，构造方法嵌套使用有误，造成实例化失败*/
         @JavascriptInterface
         public void addToCart(String bookJson){
 //                Log.d("webJson",bookJson);
@@ -39,8 +43,19 @@ public class CartWebInterface {
                 String message = "《" + booksGsonBean.getTitle() + "》"+"添加成功";
                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 
+//                Log.d("debugData",booksGsonBean.getTitle());
+//                BookInCart bookInCart = new BookInCart(booksGsonBean,1);
+//                Log.d("debugData","bookInCart:  "+bookInCart.getTitle()+bookInCart.getPrice());
+
                 CartData.addBookToCart(booksGsonBean);
+
 //                Log.d("webGson",booksGsonBean.getTitle());
+//                for(BookInCart bookInCart:CartData.getBooksInCartList()){
+//                        Log.d("webGson", "addToCart: "+bookInCart.getTitle());
+//                }
+//                for(Integer integer:CartData.getBooksInCarsMap().values()){
+//                        Log.d("webGson", "addToCart: "+integer);
+//                }
         }
 
         @JavascriptInterface

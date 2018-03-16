@@ -1,5 +1,7 @@
 package tech.panbin.shoppingcart;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,7 +12,20 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import tech.panbin.shoppingcart.data.CartData;
+import tech.panbin.shoppingcart.model.BookInCart;
+
+import static tech.panbin.shoppingcart.data.CartData.CART_DATA_TAG;
+import static tech.panbin.shoppingcart.data.CartData.DATA_LIST_TAG;
+import static tech.panbin.shoppingcart.data.CartData.DATA_MAP_TAG;
+import static tech.panbin.shoppingcart.data.CartData.DATA_SAVE_TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    WebView myWebView;
-    WebSettings webSettings;
+    private WebView myWebView;
+    private WebSettings webSettings;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+    private boolean isSave;
 
 
     @Override
@@ -51,20 +69,53 @@ public class MainActivity extends AppCompatActivity {
         myWebView.setWebViewClient(new WebViewClient());
         myWebView.loadUrl("file:///android_asset/www/list.html");
 
+
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         CartData.saveCartData(this);
-//        String data = mBookInCarts.get(0).getTitle();
-        String data = CartData.getBooksInCartList().get(0).getTitle();
-        Log.e("onPause:CartData",data);
+        super.onPause();
     }
 
     @Override
     protected void onStop() {
-        CartData.saveCartData(this);
         super.onStop();
     }
+
+//    private void saveCartData(){
+//
+//        if(!CartData.getBooksInCartList().equals("null")){
+////           String data = JsonUtil.handleCartDataToJsonString(BOOKS_IN_CART_LIST);
+//            Gson gson = new Gson();
+//            String jsonMap = gson.toJson(CartData.getBooksInCarsMap());
+//            String jsonList = gson.toJson(CartData.getBooksInCartList());
+//
+//            SharedPreferences sharedPreferences = getSharedPreferences(CART_DATA_TAG, Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putString(DATA_MAP_TAG,jsonMap);
+//            editor.putString(DATA_LIST_TAG,jsonList);
+//            editor.putBoolean(DATA_SAVE_TAG,true);
+//            editor.apply();
+//        }
+//    }
+
+//    private void loadCartData(){
+//        SharedPreferences pref = getSharedPreferences(CART_DATA_TAG,MODE_PRIVATE);
+//        String jsonMap = pref.getString(DATA_MAP_TAG,"null");
+//        String jsonList = pref.getString(DATA_LIST_TAG,"null");
+//        boolean isSaved = pref.getBoolean(DATA_SAVE_TAG,false);
+//
+//        if(isSaved==true){
+//            Gson gson = new Gson();
+//
+//            Type collectionTypeMap = new TypeToken<HashMap<String,Integer>>(){}.getType();
+//            HashMap<String,Integer> map = gson.fromJson(jsonMap, collectionTypeMap);
+//            CartData.setBooksInCarsMap(map);
+//
+//            Type collectionTypeList = new TypeToken<ArrayList<BookInCart>>(){}.getType();
+//            ArrayList<BookInCart> list = gson.fromJson(jsonList, collectionTypeList);
+//            CartData.setBooksInCartList(list);
+//        }
+//    }
 }

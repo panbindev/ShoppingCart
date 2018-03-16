@@ -3,6 +3,8 @@ package tech.panbin.shoppingcart.data;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.EventLogTags;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,9 +29,12 @@ import static android.content.Context.MODE_PRIVATE;
 
 public final class CartData {
 
-    private static final String CART_DATA_TAG = "tech.panbin.android.CART_DATA";
-    private static final String DATA_LIST_TAG = "BOOKS_IN_CART_LIST";
-    private static final String DATA_MAP_TAG = "BOOKS_IN_CARS_MAP";
+    public static final String CART_DATA_TAG = "CART_DATA";
+    public static final String DATA_LIST_TAG = "BOOKS_IN_CART_LIST";
+    public static final String DATA_MAP_TAG = "BOOKS_IN_CARS_MAP";
+    public static final String DATA_SAVE_TAG = "CART_DATA_SAVE_BOOLEAN";
+
+    public static final String DATA_DEBUG_TAG = "CART_DATA_DEBUG";
 
     /*DATA*/
     private static List<BookInCart> BOOKS_IN_CART_LIST = new ArrayList<>();
@@ -37,25 +42,26 @@ public final class CartData {
     /*key:bookId,value:position in list*/
     private static Map<String,Integer> BOOKS_IN_CARS_MAP = new HashMap<>();
 
-    private static final void addCartData(BookInCart mBookInCart){
+    private static void addCartData(BookInCart mBookInCart){
         String bookId = mBookInCart.getId();
         BOOKS_IN_CART_LIST.add(mBookInCart);
         int position = BOOKS_IN_CART_LIST.size() - 1;
-        Integer p = new Integer(position);
-        BOOKS_IN_CARS_MAP.put(bookId,p);
+//        Integer p = Integer.valueOf(position);//IDE提示当前语言版本没必要这么写了
+//        Log.d(DATA_DEBUG_TAG,"position:"+position+"  bookid:"+bookId+"  title"+mBookInCart.getTitle()+"  number:"+mBookInCart.getBookNumber());
+        BOOKS_IN_CARS_MAP.put(bookId,position);
     }
 
-    public static final void addBookToCart(BooksGsonBean mBooksGsonBean){
+    public static void addBookToCart(BooksGsonBean mBooksGsonBean){
         BookInCart bookInCart = new BookInCart(mBooksGsonBean);
         addBookToCart(bookInCart);
     }
 
-    public static final void addBookToCart(BookInCart bookInCart){
+    public static void addBookToCart(BookInCart bookInCart){
         addBookToCart(bookInCart,1);
     }
 
     /*n为负数表示减*/
-    public static final void addBookToCart(BookInCart bookInCart,int n){
+    public static void addBookToCart(BookInCart bookInCart,int n){
         String bookId = bookInCart.getId();
 
         if(BOOKS_IN_CARS_MAP.get(bookId)==null){
@@ -66,11 +72,10 @@ public final class CartData {
             int position = BOOKS_IN_CARS_MAP.get(bookId);
             BOOKS_IN_CART_LIST.get(position).addBookNumber(n);
         }
-
     }
 
 
-    public static final void saveCartData(Context mContext){
+    public static void saveCartData(Context mContext){
 
         if(!BOOKS_IN_CART_LIST.equals("null")){
 //           String data = JsonUtil.handleCartDataToJsonString(BOOKS_IN_CART_LIST);
@@ -78,11 +83,12 @@ public final class CartData {
             String jsonMap = gson.toJson(BOOKS_IN_CARS_MAP);
             String jsonList = gson.toJson(BOOKS_IN_CART_LIST);
 
-            SharedPreferences sharedPreferences = mContext.getSharedPreferences(CART_DATA_TAG, MODE_PRIVATE);
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences(CART_DATA_TAG, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(DATA_MAP_TAG,jsonMap);
             editor.putString(DATA_LIST_TAG,jsonList);
-            editor.commit();
+            editor.putBoolean(DATA_SAVE_TAG,true);
+            editor.apply();
         }
     }
 
@@ -90,18 +96,17 @@ public final class CartData {
         SharedPreferences pref = mContext.getSharedPreferences(CART_DATA_TAG,MODE_PRIVATE);
         String jsonMap = pref.getString(DATA_MAP_TAG,"null");
         String jsonList = pref.getString(DATA_LIST_TAG,"null");
+        boolean isSaved = pref.getBoolean(DATA_SAVE_TAG,false);
 
-        if(!jsonMap.equals("null")){
+        if(isSaved==true){
             Gson gson = new Gson();
-            Type collectionType = new TypeToken<HashMap<String,Integer>>(){}.getType();
-            HashMap<String,Integer> map = gson.fromJson(jsonMap, collectionType);
+
+            Type collectionTypeMap = new TypeToken<HashMap<String,Integer>>(){}.getType();
+            HashMap<String,Integer> map = gson.fromJson(jsonMap, collectionTypeMap);
             BOOKS_IN_CARS_MAP = map;
-        }
 
-        if(!jsonList.equals("null")){
-            Gson gson = new Gson();
-            Type collectionType = new TypeToken<ArrayList<BookInCart>>(){}.getType();
-            ArrayList<BookInCart> list = gson.fromJson(jsonList, collectionType);
+            Type collectionTypeList = new TypeToken<ArrayList<BookInCart>>(){}.getType();
+            ArrayList<BookInCart> list = gson.fromJson(jsonList, collectionTypeList);
             BOOKS_IN_CART_LIST = list;
         }
     }
@@ -114,4 +119,11 @@ public final class CartData {
         return BOOKS_IN_CARS_MAP;
     }
 
+    public static void setBooksInCartList(List<BookInCart> mBooksInCartList) {
+        BOOKS_IN_CART_LIST = mBooksInCartList;
+    }
+
+    public static void setBooksInCarsMap(Map<String, Integer> mBooksInCarsMap) {
+        BOOKS_IN_CARS_MAP = mBooksInCarsMap;
+    }
 }
