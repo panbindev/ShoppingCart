@@ -8,7 +8,7 @@
 <body onload="loadData()">
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/lpic/s1631790.jpg" height=100px width=85px ></td>
         <td>UNIX编程艺术</td>
     </tr>
@@ -16,13 +16,13 @@
         <td>59.00元</td>
     </tr>
     <tr>
-        <td><button>-</button><input id="1" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;"><button>+</button></td>
+        <td><button onclick="subNumber(this)">-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button onclick="addNumber(this)">+</button></td>
     </tr>
 </table><br>
 
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/spic/s1958902.jpg" height=100px width=85px ></td>
         <td>JavaScript DOM编程艺术</td>
     </tr>
@@ -30,35 +30,136 @@
         <td>39.00元</td>
     </tr>
     <tr>
-        <td><button>-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;"><button>+</button></td>
+        <td><button onclick="subNumber(this)">-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button onclick="addNumber(this)">+</button></td>
     </tr>
 </table><br>
 
+<table>
+    <tr>
+        <td><input type="checkbox" name="selectAll" onclick="selectAll(this)">全选</td>
+        <td><button onclick="deleteItem()">删除所选</button></td>
+        <td>总价：</td>
+        <td>0.00元</td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td><button onclick="deleteAll()">一键清空</button></td>
+        <td></td>
+        <td><button style="text-align: center;">结算</button></td>
+    </tr>
+</table>
+
+<!--<button onclick="loadData()">刷新数据</button>-->
+
 <script type="text/javascript">
-
-	var price[20];
 	var jsonData;
+</script>
 
+<script type="text/javascript">
 	function loadData() {
-		var data = Android.loadCartData();
-		document.write("data");
 
-//		var i=0;
-//		for(i=0;i<20;i++)
-//		{
-//
-//		}
+		jsonData = JSON.parse(Android.loadCartData());
 
+		if(jsonData==null){
+			document.write("<h2>购物车空</h2>");
+		}
+		else{
+
+			var i;
+			for(i=0;i<jsonData.length;i++)
+			{
+				document.write('<table id="'
+					+i
+					+'"><tr><td rowspan="3"><input type="checkbox" name="buy_item"></td><td rowspan="3"><img src="'
+					+jsonData[i].coverPictureUrl
+					+'" height=100px width=85px ></td>  <td>'
+					+jsonData[i].title
+					+'</td>    </tr>    <tr>        <td name="price">'
+					+jsonData[i].price
+					+'</td>    </tr>    <tr>        <td><button name="sub" onclick="subNumber(this)">-</button><input type="text" name="number" value="'
+					+jsonData[i].bookNumber
+					+'" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button name="add" onclick="addNumber(this)">+</button></td>    </tr></table><br>'
+				);
+			}
+			document.write('<table>    <tr>        <td><input type="checkbox" name="selectAll" onclick="selectAll(this)">全选</td>        <td><button onclick="deleteItem()">删除所选</button></td>        <td>总价：</td>        <td>0.00元</td>    </tr>    <tr>    	<td></td>        <td><button onclick="deleteAll()">一键清空</button></td>        <td></td>        <td><button style="text-align: center;">结算</button></td>    </tr></table>');
+
+		}
 	}
+</script>
 
-	function addNumber(obj){
-//		number = event
+
+<script type="text/javascript">
+	function changeNumber(obj){
+		var value = obj.value;
+
+		if(isNumber(value)&&isInteger(value)){
+			if(value<1){
+				obj.value = 1;
+			}
+		}else{
+			obj.value = 1;
+		}
 	}
 
 	function subNumber(obj){
+		var value = obj.nextSibling.value;
+		if(value>1)
+		{
+			obj.nextSibling.value--;
+		}
+	}
+
+	function addNumber(obj){
+		obj.previousSibling.value++;
+	}
+
+	function isNumber(obj) {
+    	return typeof obj === 'number' && obj%1 === 0
+	}
+	function isInteger(obj) {
+    	return obj%1 === 0
+	}
+</script>
+
+<script type="text/javascript">
+	function selectAll(obj){
+
+		if(obj.checked==true){
+			var x = document.getElementsByName("buy_item");
+			for (var i = x.length - 1; i >= 0; i--) {
+				x[i].checked = true;
+			}
+		}
+		else if(obj.checked==false){
+			var y = document.getElementsByName("buy_item");
+			for (var j = y.length - 1; j >= 0; j--) {
+				y[j].checked = false;
+			}
+		}
+	}
+
+	function deleteAll(){
+
+	}
+
+	function deleteItem(){
 
 	}
 </script>
+
+<script type="text/javascript">
+	function countPrice(){
+
+	}
+
+</script>
+
+<!-- 数据来自Android中的log.d() -->
+<script type="text/javascript">
+	var demo = [{"title":"UNIX编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s1631790.jpg","id":"1467587","price":"59.00元","bookNumber":6},{"title":"JavaScript DOM编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s1958902.jpg","id":"1921890","price":"39.00元","bookNumber":18},{"title":"UNIX编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s11345267.jpg","id":"11609943","price":"99.00元","bookNumber":1},{"title":"指针的编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s24558417.jpg","id":"20424479","price":"65.00元","bookNumber":7},{"title":"Verilog编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s28296724.jpg","id":"26612391","price":"79.00元","bookNumber":1},{"title":"JavaScript DOM编程艺术 （第2版）","coverPictureUrl":"https://img3.doubanio.com/spic/s4677623.jpg","id":"6038371","price":"49.00元","bookNumber":1},{"title":"SQL Server 2005编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s5906156.jpg","id":"3105777","price":"59.00元","bookNumber":1},{"title":"C++编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s5721129.jpg","id":"1444929","price":"39.80元","bookNumber":1},{"title":"汇编语言的编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s7058839.jpg","id":"7059709","price":"69.80元","bookNumber":1}]
+</script>
+
 
 </body>
 </html>

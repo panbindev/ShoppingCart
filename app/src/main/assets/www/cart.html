@@ -8,7 +8,7 @@
 <body onload="loadData()">
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/lpic/s1631790.jpg" height=100px width=85px ></td>
         <td>UNIX编程艺术</td>
     </tr>
@@ -16,13 +16,13 @@
         <td>59.00元</td>
     </tr>
     <tr>
-        <td><button>-</button><input id="1" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;"><button>+</button></td>
+        <td><button onclick="subNumber(this)">-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button onclick="addNumber(this)">+</button></td>
     </tr>
 </table><br>
 
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/spic/s1958902.jpg" height=100px width=85px ></td>
         <td>JavaScript DOM编程艺术</td>
     </tr>
@@ -30,11 +30,27 @@
         <td>39.00元</td>
     </tr>
     <tr>
-        <td><button>-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;"><button>+</button></td>
+        <td><button onclick="subNumber(this)">-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button onclick="addNumber(this)">+</button></td>
     </tr>
 </table><br>
 
-<button onclick="loadData()">刷新数据</button>
+<table>
+    <tr>
+        <td><input type="checkbox" name="selectAll" onclick="selectAll(this)">全选</td>
+        <td><button onclick="deleteItem()">删除所选</button></td>
+        <td>总价：</td>
+        <td>0.00元</td>
+    </tr>
+
+    <tr>
+        <td></td>
+        <td><button onclick="deleteAll()">一键清空</button></td>
+        <td></td>
+        <td><button style="text-align: center;">结算</button></td>
+    </tr>
+</table>
+
+<!--<button onclick="loadData()">刷新数据</button>-->
 
 <script type="text/javascript">
 	var jsonData;
@@ -45,36 +61,98 @@
 
 		jsonData = JSON.parse(Android.loadCartData());
 
-		var i;
-		for(i=0;i<jsonData.length;i++)
-		{
-			document.write('<table id="'
-				+i
-				+'"><tr><td rowspan="3"><input type="checkbox" name="buy"></td><td rowspan="3"><img src="'
-				+jsonData[i].coverPictureUrl
-				+'" height=100px width=85px ></td>  <td>'
-				+jsonData[i].title
-				+'</td>    </tr>    <tr>        <td name="price">'
-				+jsonData[i].price
-				+'</td>    </tr>    <tr>        <td><button name="sub">-</button><input type="text" name="number" value="'
-				+jsonData[i].bookNumber
-				+'" size="3" Maxlength="5" style="text-align: center;"><button name="add">+</button></td>    </tr></table><br>');
+		if(jsonData==null){
+			document.write("<h2>购物车空</h2>");
+		}
+		else{
+
+			var i;
+			for(i=0;i<jsonData.length;i++)
+			{
+				document.write('<table id="'
+					+i
+					+'"><tr><td rowspan="3"><input type="checkbox" name="buy_item"></td><td rowspan="3"><img src="'
+					+jsonData[i].coverPictureUrl
+					+'" height=100px width=85px ></td>  <td>'
+					+jsonData[i].title
+					+'</td>    </tr>    <tr>        <td name="price">'
+					+jsonData[i].price
+					+'</td>    </tr>    <tr>        <td><button name="sub" onclick="subNumber(this)">-</button><input type="text" name="number" value="'
+					+jsonData[i].bookNumber
+					+'" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button name="add" onclick="addNumber(this)">+</button></td>    </tr></table><br>'
+				);
+			}
+			document.write('<table>    <tr>        <td><input type="checkbox" name="selectAll" onclick="selectAll(this)">全选</td>        <td><button onclick="deleteItem()">删除所选</button></td>        <td>总价：</td>        <td>0.00元</td>    </tr>    <tr>    	<td></td>        <td><button onclick="deleteAll()">一键清空</button></td>        <td></td>        <td><button style="text-align: center;">结算</button></td>    </tr></table>');
+
 		}
 	}
 </script>
 
 
 <script type="text/javascript">
+	function changeNumber(obj){
+		var value = obj.value;
 
-	var price[20];
-
-	function addNumber(obj){
-//		number = event
+		if(isNumber(value)&&isInteger(value)){
+			if(value<1){
+				obj.value = 1;
+			}
+		}else{
+			obj.value = 1;
+		}
 	}
 
 	function subNumber(obj){
+		var value = obj.nextSibling.value;
+		if(value>1)
+		{
+			obj.nextSibling.value--;
+		}
+	}
+
+	function addNumber(obj){
+		obj.previousSibling.value++;
+	}
+
+	function isNumber(obj) {
+    	return typeof obj === 'number' && obj%1 === 0
+	}
+	function isInteger(obj) {
+    	return obj%1 === 0
+	}
+</script>
+
+<script type="text/javascript">
+	function selectAll(obj){
+
+		if(obj.checked==true){
+			var x = document.getElementsByName("buy_item");
+			for (var i = x.length - 1; i >= 0; i--) {
+				x[i].checked = true;
+			}
+		}
+		else if(obj.checked==false){
+			var y = document.getElementsByName("buy_item");
+			for (var j = y.length - 1; j >= 0; j--) {
+				y[j].checked = false;
+			}
+		}
+	}
+
+	function deleteAll(){
 
 	}
+
+	function deleteItem(){
+
+	}
+</script>
+
+<script type="text/javascript">
+	function countPrice(){
+
+	}
+
 </script>
 
 <!-- 数据来自Android中的log.d() -->
