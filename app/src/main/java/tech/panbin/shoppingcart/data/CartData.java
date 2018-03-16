@@ -61,6 +61,18 @@ public final class CartData {
         }
     }
 
+    /*修改现有的购物车中商品的数量*/
+    public static boolean alterNumberData(String bookId, int number){
+        int position = searchBookById(bookId);
+        if(position==-1){
+            return false;
+        }
+        else{
+            BOOKS_IN_CART_LIST.get(position).setBookNumber(number);
+            return true;
+        }
+    }
+
     /*删除选定购物车列表的数据*/
     public static void deleteProductCart(List<String> bookIds){
         for (String bookId:bookIds){

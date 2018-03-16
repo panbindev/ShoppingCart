@@ -62,9 +62,12 @@ public class CartWebInterface {
 
         /*购物车页面，商品数量发生改变时调用，更新Android本地内存数据*/
         @JavascriptInterface
-        public void alterProductNumber(String bookJson){
-                BookInCart bookInCart = JsonUtil.handleJsonStringToBookInCart(bookJson);
-                CartData.alterNumberData(bookInCart);
+        public void alterProductNumber(String bookId, int number){
+                boolean isSuccess = false;
+                isSuccess = CartData.alterNumberData(bookId,number);
+                if(isSuccess){
+                        Toast.makeText(mContext, "数据更新", Toast.LENGTH_SHORT).show();
+                }
         }
 
 
