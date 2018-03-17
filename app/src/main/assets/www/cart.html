@@ -1,7 +1,3 @@
-function isNotaNumber (inputString)
-{
-return isNaN(inputString);
-}
 <!doctype html>
 <html>
 <head>
@@ -12,7 +8,7 @@ return isNaN(inputString);
 <body onload="loadData()">
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy_item"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item" " onclick="selectItemCheckbox(this)"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/lpic/s1631790.jpg" height=100px width=85px ></td>
         <td>UNIX编程艺术</td>
     </tr>
@@ -20,13 +16,13 @@ return isNaN(inputString);
         <td>59.00元</td>
     </tr>
     <tr>
-        <td><button onclick="subNumber(this)">-</button><input id="2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button onclick="addNumber(this)">+</button></td>
+        <td><button onclick="subNumber(this)">-</button><input id="book-2" type="text" name="number" value="1" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)"><button onclick="addNumber(this)">+</button></td>
     </tr>
 </table><br>
 
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy_item" data-book-id="1921890"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item" data-book-id="1921890" " onclick="selectItemCheckbox(this)"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/spic/s1958902.jpg" height=100px width=85px ></td>
         <td>JavaScript DOM编程艺术</td>
     </tr>
@@ -40,10 +36,10 @@ return isNaN(inputString);
 
 <table>
     <tr>
-        <td><input type="checkbox" name="selectAll" onclick="selectAll(this)">全选</td>
+        <td><input type="checkbox" id="select_all_checkbox" name="selectAll" onclick="selectAll(this)">全选</td>
         <td><button onclick="deleteItem()">删除所选</button></td>
         <td>总价：</td>
-        <td>0.00元</td>
+        <td id="sum_price">0.00元</td>
     </tr>
 
     <tr>
@@ -64,6 +60,7 @@ return isNaN(inputString);
 	function loadData() {
 
 		jsonData = JSON.parse(Android.loadCartData());
+		// jsonData = demo;
 
 		if(jsonData==null){
 			document.write("<h2>购物车空</h2>");
@@ -75,9 +72,9 @@ return isNaN(inputString);
 			{
 				document.write('<table id="'
 					+i
-					+'"><tr><td rowspan="3"><input type="checkbox" name="buy_item" data-book-id="'
+					+'"><tr><td rowspan="3"><input type="checkbox" name="buy_item" value="'
 					+jsonData[i].id
-					+'"></td><td rowspan="3"><img src="'
+					+'" onclick="selectItemCheckbox(this)"></td><td rowspan="3"><img src="'
 					+jsonData[i].coverPictureUrl
 					+'" height=100px width=85px ></td>  <td>'
 					+jsonData[i].title
@@ -91,36 +88,45 @@ return isNaN(inputString);
 				);
 			}
 		}
-		document.write('<table>    <tr>        <td><input type="checkbox" name="selectAll" onclick="selectAll(this)">全选</td>        <td><button onclick="deleteItem()">删除所选</button></td>        <td>总价：</td>        <td>0.00元</td>    </tr>    <tr>    	<td></td>        <td><button onclick="deleteAll()">一键清空</button></td>        <td></td>        <td><button style="text-align: center;">结算</button></td>    </tr></table>');
+		document.write('<table>    <tr>        <td><input type="checkbox" id="select_all_checkbox" name="selectAll" onclick="selectAll(this)">全选</td>        <td><button onclick="deleteItem()">删除所选</button></td>        <td>总价：</td>        <td id="sum_price">0.00元</td>    </tr>    <tr>    	<td></td>        <td><button onclick="deleteAll()">一键清空</button></td>        <td></td>        <td><button style="text-align: center;">结算</button></td>    </tr></table>');
 	}
 </script>
 
 
 <script type="text/javascript">
+
+	function updateData(obj){
+		var bookId = obj.getAttribute("data-book-id").toString();
+		var number = parseInt(obj.value);
+		Android.alterProductNumber(bookId,number);
+	}
+
 	function changeNumber(obj){
 		var value = obj.value;
 
 		if(isNaN(parseInt(value))||value<1){
 			obj.value = 1;
 		}
-
-		var bookId = parseString(obj.getAttribute("data-book-id"));
-		var number = parseInt(obj.value);
-		Android.showToast(bookId+'  '+obj.value);
-		Android.alterProductNumber(bookId,number);
-//		location.reload();
+		updateData(obj);
 	}
 
 	function subNumber(obj){
-		var value = obj.nextSibling.value;
-		if(value>1)
+		var valueObj = obj.nextSibling;
+
+		var number = valueObj.value;
+		if(number>1)
 		{
-			obj.nextSibling.value--;
+			valueObj.value--;
+
+			updateData(valueObj);
 		}
 	}
 
 	function addNumber(obj){
-		obj.previousSibling.value++;
+		var valueObj = obj.previousSibling;
+		valueObj.value++;
+
+		updateData(valueObj);
 	}
 
 </script>
@@ -142,22 +148,66 @@ return isNaN(inputString);
 		}
 	}
 
+	function selectItemCheckbox(obj){
+
+		var selectAllObj = document.getElementById("select_all_checkbox");
+
+		if(obj.checked==false&&selectAllObj.checked==true){
+			selectAllObj.checked = false;
+		}
+		else{
+			var x = document.getElementsByName("buy_item");
+			var countTrue=0;
+			for (var i = x.length - 1; i >= 0; i--) {
+				if(x[i].checked == true){
+					countTrue = countTrue+1;
+				}
+			}
+			if(countTrue==x.length){
+				selectAllObj.checked = true;
+			}
+		}
+
+		countPrice();
+	}
+
 	function deleteAll(){
 		Android.deleteAll();
 		location.reload();
 	}
 
 	function deleteItem(){
-
+		var checkboxlist = getSelectedBookId();
+		Android.deleteSeletedProduct(checkboxlist);
+		location.reload();
 	}
-</script>
 
-<script type="text/javascript">
+	function getSelectedBookId(){
+		var checkbox = document.getElementsByName("buy_item");
+		var checkboxlist;
+		for (var i = checkbox.length - 1; i >= 0; i--) {
+
+			if(checkbox[i].checked==true){
+
+				if (checkboxlist===undefined) {
+					checkboxlist = checkbox[i].value;
+				}
+				else{
+					checkboxlist = checkboxlist + "-" + checkbox[i].value;
+				}
+			}
+		}
+		return checkboxlist;
+	}
+
 	function countPrice(){
-
+		var checkboxlist = getSelectedBookId();
+		Android.showToast(checkboxlist);
+		var price = Android.getSumPrice(checkboxlist);
+		document.getElementById("sum_price").innerText(price+"元");
 	}
-
 </script>
+
 
 <!-- 数据来自Android中的log.d() -->
 <script type="text/javascript">

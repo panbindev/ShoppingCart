@@ -74,9 +74,9 @@ public final class CartData {
     }
 
     /*删除选定购物车列表的数据*/
-    public static void deleteProductCart(List<String> bookIds){
-        for (String bookId:bookIds){
-            int position = searchBookById(bookId);
+    public static void deleteProductCart(String[] bookIdList){
+        for (String id : bookIdList){
+            int position = searchBookById(id);
             BOOKS_IN_CART_LIST.remove(position);
         }
     }
