@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class CartWebInterface {
     * 返回 double 总价
     */
     @JavascriptInterface
-    public double getSumPrice(String strList) {
+    public String getSumPrice(String strList) {
         /*购物车中选中的商品的列表*/
         String [] bookIdList = handleStringToStringList(strList);
 
@@ -90,7 +91,7 @@ public class CartWebInterface {
         double numberPrice;
 
         /*数量*/
-        int number;
+        double number;
 
         /*总价*/
         double sumPrice = 0;
@@ -106,13 +107,17 @@ public class CartWebInterface {
             numberPrice = JsonUtil.handleGsonPriceToDouble(strPrice);
 
             /*商品数量*/
-            number = bookInCartList.get(position).getBookNumber();
+            number = (double) bookInCartList.get(position).getBookNumber();
 
             /*求总价*/
             sumPrice = sumPrice + (numberPrice * number);
 
         }
-        return sumPrice;
+
+        String printPrice;
+        DecimalFormat df = new DecimalFormat("#.00");
+        printPrice = df.format(sumPrice) + "元";
+        return printPrice;
     }
 
     /*删除选中的商品

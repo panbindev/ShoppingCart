@@ -8,7 +8,7 @@
 <body onload="loadData()">
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy_item" " onclick="selectItemCheckbox(this)"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item"  onclick="selectItemCheckbox(this)"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/lpic/s1631790.jpg" height=100px width=85px ></td>
         <td>UNIX编程艺术</td>
     </tr>
@@ -22,7 +22,7 @@
 
 <table>
     <tr>
-        <td rowspan="3"><input type="checkbox" name="buy_item" data-book-id="1921890" " onclick="selectItemCheckbox(this)"></td>
+        <td rowspan="3"><input type="checkbox" name="buy_item" data-book-id="1921890"  onclick="selectItemCheckbox(this)"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/spic/s1958902.jpg" height=100px width=85px ></td>
         <td>JavaScript DOM编程艺术</td>
     </tr>
@@ -96,6 +96,11 @@
 <script type="text/javascript">
 
 	function updateData(obj){
+		updateAndroidData(obj);
+		countPrice();
+	}
+
+	function updateAndroidData(obj){
 		var bookId = obj.getAttribute("data-book-id").toString();
 		var number = parseInt(obj.value);
 		Android.alterProductNumber(bookId,number);
@@ -146,6 +151,8 @@
 				y[j].checked = false;
 			}
 		}
+
+		countPrice();
 	}
 
 	function selectItemCheckbox(obj){
@@ -203,8 +210,13 @@
 	function countPrice(){
 		var checkboxlist = getSelectedBookId();
 		Android.showToast(checkboxlist);
-		var price = Android.getSumPrice(checkboxlist);
-		document.getElementById("sum_price").innerText(price+"元");
+		var printPrice = Android.getSumPrice(checkboxlist);
+		if(checkboxlist===undefined){
+			document.getElementById("sum_price").innerText = "0.00元";
+		}else{
+			document.getElementById("sum_price").innerText = printPrice;
+		}
+
 	}
 </script>
 
