@@ -3,19 +3,19 @@
 <head>
 	<meta charset="utf-8">
 	<title>商品列表</title>
-
-	<style type="text/css">
-.text_laber
-{
-	white-space: nowrap;
-	vertical-align:text-top;
-	color:gray;
-}
-</style>
-
 </head>
 
 <body onload="loadData()">
+
+<!-- 以下为开发过程中PC端演示用的数据 -->
+<!-- <style type="text/css">
+.text_laber
+{
+    white-space: nowrap;
+    vertical-align:text-top;
+    color:gray;
+}
+</style>
 <table>
 	<tr>
 		<td rowspan="5"><img src="https://img3.doubanio.com/lpic/s1631790.jpg" height=100px width=85px ></td>
@@ -42,13 +42,17 @@
 		<td></td>
 		<td><button>添加到购物车</button></td>
 	</tr>
-</table>
+</table> -->
+<!-- 以上为开发过程中PC端演示用的数据 -->
 
 <script type="text/javascript">
-	function loadData() {
+	/*初始化，载入数据*/
+    function loadData() {
+        /*商品列表样式*/
 		document.write('<style type="text/css">.text_laber{	white-space: nowrap; vertical-align:text-top; color:gray;}</style>');
-		for(var i=0;i<jsonData.books.length;i++)
 
+        /*商品列表数据表格*/
+        for(var i=0;i<jsonData.books.length;i++)
 		{
 			document.write('<table><tr><td rowspan="5"><img src="'
 				+jsonData.books[i].images.small
@@ -64,22 +68,23 @@
 				+jsonData.books[i].price
 				+'</td></tr><tr><td></td><td><button id="'
 				+i
-				+'" onclick="addToCart(this)">添加到购物车</button></td></tr></table><br>');
+				+'" onclick="addToCart(this)">添加到购物车</button></td></tr></table><br>'
+            );
 		}
-
 	}
 
-
+    /*添加到购物车*/
 	function addToCart(obj){
 		var data = JSON.stringify(jsonData.books[obj.id]);
 		Android.addToCart(data);
-		<!--Android.showToast("《" + jsonData.books[obj.id].title + "》"+"添加成功");-->
-		<!--Android.showToast(data);-->
+		Android.showToast("《" + jsonData.books[obj.id].title + "》"+"添加成功");
 	}
 </script>
 
+<!-- 商品列表原始数据 -->
 <script type="text/javascript">
-	var jsonData = {
+	/*数据来源：https://api.douban.com/v2/book/search?q=编程艺术 */
+    var jsonData = {
     "count": 20,
     "start": 0,
     "total": 87,

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /*载入数据*/
         CartData.loadCartData(this);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        CartData.saveCartData(this);
         super.onPause();
+
+        /*永久保存数据*/
+        CartData.saveCartData(this);
     }
 }

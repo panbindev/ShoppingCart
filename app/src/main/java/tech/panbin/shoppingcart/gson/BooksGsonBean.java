@@ -10,6 +10,7 @@ import java.util.List;
 
 public class BooksGsonBean {
 
+    /*使用GsonFormat自动生成*/
 
     /**
      * rating : {"max":10,"numRaters":2013,"average":"9.1","min":0}

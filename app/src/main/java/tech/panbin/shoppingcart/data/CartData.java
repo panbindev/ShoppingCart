@@ -49,6 +49,18 @@ public final class CartData {
         return -1;
     }
 
+    /*添加商品到购物车*/
+    public static void addProductCart(BookInCart mBookInCart){
+        int position = searchBookById(mBookInCart.getId());
+        if(position==-1){
+            BOOKS_IN_CART_LIST.add(mBookInCart);
+        }
+        else{
+            int oldNumber = BOOKS_IN_CART_LIST.get(position).getBookNumber();
+            int newNumber = oldNumber + 1;
+            BOOKS_IN_CART_LIST.get(position).setBookNumber(newNumber);
+        }
+    }
     /*修改现有的购物车中商品的数量*/
     public static boolean alterNumberData(BookInCart mBookInCart){
         int position = searchBookById(mBookInCart.getId());
@@ -86,22 +98,8 @@ public final class CartData {
         BOOKS_IN_CART_LIST.clear();
     }
 
-    /*添加商品到购物车*/
-    public static void addProductCart(BookInCart mBookInCart){
-        int position = searchBookById(mBookInCart.getId());
-        if(position==-1){
-            BOOKS_IN_CART_LIST.add(mBookInCart);
-        }
-        else{
-            int oldNumber = BOOKS_IN_CART_LIST.get(position).getBookNumber();
-            int newNumber = oldNumber + 1;
-            BOOKS_IN_CART_LIST.get(position).setBookNumber(newNumber);
-        }
-    }
-
-    /*保存购物车到Android本地*/
+    /*保存购物车内数据到Android本地*/
     public static void saveCartData(Context mContext){
-
         Gson gson = new Gson();
         String jsonList = gson.toJson(BOOKS_IN_CART_LIST);
 
@@ -120,11 +118,9 @@ public final class CartData {
 
         if(isSaved==true){
             Gson gson = new Gson();
-
             Type collectionTypeList = new TypeToken<ArrayList<BookInCart>>(){}.getType();
             ArrayList<BookInCart> list = gson.fromJson(jsonList, collectionTypeList);
             BOOKS_IN_CART_LIST = list;
         }
     }
-
 }

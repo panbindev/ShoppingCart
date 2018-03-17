@@ -6,12 +6,7 @@ import android.content.Context;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.panbin.shoppingcart.data.CartData;
@@ -43,7 +38,7 @@ public class CartWebInterface {
         Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
     }
 
-    /*从商品列表添加商品到购物车，数据存储到Android本地*/
+    /*从商品列表添加商品到购物车时，将数据存储到Android本地*/
     @JavascriptInterface
     public void addToCart(String bookJson) {
         BooksGsonBean booksGsonBean = JsonUtil.handleBookJsonToGson(bookJson);
@@ -55,7 +50,7 @@ public class CartWebInterface {
         CartData.addProductCart(bookInCart);
     }
 
-    /*打开webView购物车页面时，载入Android本地内存数据*/
+    /*打开webView购物车页面时，载入Android本地数据*/
     @JavascriptInterface
     public String loadCartData() {
         String data = JsonUtil.handleCartDataToJsonString(CartData.getBooksInCartList());
@@ -75,8 +70,8 @@ public class CartWebInterface {
     /*
     * 求总价
     * 购物车列表中选中商品，webView将商品id传给android。
-    * 商品id为String，js传回的是Json后的List<String>
-    * 返回 double 总价
+    * 商品id为String，从webview传回的是String [] bookIdList
+    * 返回 String总价，例如“59.00元”
     */
     @JavascriptInterface
     public String getSumPrice(String strList) {
@@ -111,9 +106,9 @@ public class CartWebInterface {
 
             /*求总价*/
             sumPrice = sumPrice + (numberPrice * number);
-
         }
 
+        /*转换价格格式为String型，例如“59.00元” */
         String printPrice;
         DecimalFormat df = new DecimalFormat("#.00");
         printPrice = df.format(sumPrice) + "元";
@@ -122,28 +117,29 @@ public class CartWebInterface {
 
     /*删除选中的商品
     *
-    * 传入String
-    * 样例 10213-10222
-    * 用“-”分割id
+    * 传入选中的所有商品的id，用“-”拼接
     * */
     @JavascriptInterface
     public void deleteSeletedProduct(String strList) {
 
-        String [] list = handleStringToStringList(strList);
-        CartData.deleteProductCart(list);
+        String [] bookIdList = handleStringToStringList(strList);
+        CartData.deleteProductCart(bookIdList);
     }
 
-    /*清空购物车*/
+    /*清空购物车
+    *
+    * 删除本地存储的购物车信息
+    * */
     @JavascriptInterface
     public void deleteAll() {
         CartData.deleteAllCart();
     }
 
-    /*处理传回的book-id列表
+    /*处理传回的bookId列表
     *
     * 传入String
     * 样例 10213-10222
-    * 用“-”分割id
+    * 用“-”分割bookId
     * */
     private String[] handleStringToStringList(String strFromWeb){
         String[] bookIdList = strFromWeb.split("-");

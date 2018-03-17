@@ -6,7 +6,9 @@
 </head>
 
 <body onload="loadData()">
-<table>
+
+<!-- 以下为开发过程中PC端演示用的数据 -->
+<!-- <table>
     <tr>
         <td rowspan="3"><input type="checkbox" name="buy_item"  onclick="selectItemCheckbox(this)"></td>
         <td rowspan="3"><img src="https://img3.doubanio.com/lpic/s1631790.jpg" height=100px width=85px ></td>
@@ -48,27 +50,21 @@
         <td></td>
         <td><button style="text-align: center;">结算</button></td>
     </tr>
-</table>
-
+</table> -->
 <!--<button onclick="loadData()">刷新数据</button>-->
-
-<script type="text/javascript">
-	var jsonData;
-</script>
+<!-- 以上为开发过程中PC端演示用的数据 -->
 
 <script type="text/javascript">
 	function loadData() {
-
-		jsonData = JSON.parse(Android.loadCartData());
 		// jsonData = demo;
+		var jsonData = JSON.parse(Android.loadCartData());
 
 		if(jsonData==null){
 			document.write("<h2>购物车空</h2>");
 		}
 		else{
-
-			var i;
-			for(i=0;i<jsonData.length;i++)
+			/*展示购物车数据项*/
+			for(var i=0;i<jsonData.length;i++)
 			{
 				document.write('<table id="'
 					+i
@@ -88,57 +84,62 @@
 				);
 			}
 		}
+		/*底端功能栏，全选、删除、清空、总价等。结算按钮仅供展示用*/
 		document.write('<table>    <tr>        <td><input type="checkbox" id="select_all_checkbox" name="selectAll" onclick="selectAll(this)">全选</td>        <td><button onclick="deleteItem()">删除所选</button></td>        <td>总价：</td>        <td id="sum_price">0.00元</td>    </tr>    <tr>    	<td></td>        <td><button onclick="deleteAll()">一键清空</button></td>        <td></td>        <td><button style="text-align: center;">结算</button></td>    </tr></table>');
 	}
 </script>
 
-
+<!-- 手动输入数值，或按钮加减数量 -->
 <script type="text/javascript">
 
+	/*商品数量更新后调用该方法，将数据传回Android，并刷新总价*/
 	function updateData(obj){
 		updateAndroidData(obj);
 		countPrice();
 	}
 
+	/*将改变后的商品数量传给Android*/
 	function updateAndroidData(obj){
 		var bookId = obj.getAttribute("data-book-id").toString();
 		var number = parseInt(obj.value);
 		Android.alterProductNumber(bookId,number);
 	}
 
+	/*输入商品数量时调用*/
 	function changeNumber(obj){
 		var value = obj.value;
 
+		/*输入值校正*/
 		if(isNaN(parseInt(value))||value<1){
 			obj.value = 1;
 		}
 		updateData(obj);
 	}
 
+	/*按钮“-”的功能，数量最小值为1*/
 	function subNumber(obj){
 		var valueObj = obj.nextSibling;
-
 		var number = valueObj.value;
 		if(number>1)
 		{
 			valueObj.value--;
-
 			updateData(valueObj);
 		}
 	}
 
+	/*按钮“+”的功能*/
 	function addNumber(obj){
 		var valueObj = obj.previousSibling;
 		valueObj.value++;
-
 		updateData(valueObj);
 	}
-
 </script>
 
+<!-- 功能区 -->
 <script type="text/javascript">
-	function selectAll(obj){
 
+	/*全选*/
+	function selectAll(obj){
 		if(obj.checked==true){
 			var x = document.getElementsByName("buy_item");
 			for (var i = x.length - 1; i >= 0; i--) {
@@ -151,18 +152,20 @@
 				y[j].checked = false;
 			}
 		}
-
 		countPrice();
 	}
 
+	/*商品项checkbox*/
 	function selectItemCheckbox(obj){
 
 		var selectAllObj = document.getElementById("select_all_checkbox");
 
+		/*有商品未选中时，取消勾选“全选” */
 		if(obj.checked==false&&selectAllObj.checked==true){
 			selectAllObj.checked = false;
 		}
 		else{
+			/*商品手动全部选中时，勾选“全选” */
 			var x = document.getElementsByName("buy_item");
 			var countTrue=0;
 			for (var i = x.length - 1; i >= 0; i--) {
@@ -174,15 +177,17 @@
 				selectAllObj.checked = true;
 			}
 		}
-
+		/*刷新显示的总价*/
 		countPrice();
 	}
 
+	/*一键清空购物车*/
 	function deleteAll(){
 		Android.deleteAll();
 		location.reload();
 	}
 
+	/*删除选中的商品*/
 	function deleteItem(){
 		var checkboxlist = getSelectedBookId();
 		Android.deleteSeletedProduct(checkboxlist);
@@ -207,25 +212,25 @@
 		return checkboxlist;
 	}
 
+	/*计算总价*/
 	function countPrice(){
-
 		var checkboxlist = getSelectedBookId();
+		// 观察检验bookId是否正确
 		Android.showToast(checkboxlist);
-		var printPrice = Android.getSumPrice(checkboxlist);
 		if(checkboxlist===undefined){
-			document.getElementById("sum_price").innerText = "0.00元";
+			var zeroPrice = "0.00元";
+			document.getElementById("sum_price").innerText = zeroPrice;
 		}else{
+			var printPrice = Android.getSumPrice(checkboxlist);
 			document.getElementById("sum_price").innerText = printPrice;
 		}
 	}
 </script>
 
-
-<!-- 数据来自Android中的log.d() -->
-<script type="text/javascript">
+<!-- 数据来自Android中的log.d() ，仅供开发过程中观察数据类型用 -->
+<!-- <script type="text/javascript">
 	var demo = [{"title":"UNIX编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s1631790.jpg","id":"1467587","price":"59.00元","bookNumber":6},{"title":"JavaScript DOM编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s1958902.jpg","id":"1921890","price":"39.00元","bookNumber":18},{"title":"UNIX编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s11345267.jpg","id":"11609943","price":"99.00元","bookNumber":1},{"title":"指针的编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s24558417.jpg","id":"20424479","price":"65.00元","bookNumber":7},{"title":"Verilog编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s28296724.jpg","id":"26612391","price":"79.00元","bookNumber":1},{"title":"JavaScript DOM编程艺术 （第2版）","coverPictureUrl":"https://img3.doubanio.com/spic/s4677623.jpg","id":"6038371","price":"49.00元","bookNumber":1},{"title":"SQL Server 2005编程艺术","coverPictureUrl":"https://img3.doubanio.com/spic/s5906156.jpg","id":"3105777","price":"59.00元","bookNumber":1},{"title":"C++编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s5721129.jpg","id":"1444929","price":"39.80元","bookNumber":1},{"title":"汇编语言的编程艺术","coverPictureUrl":"https://img1.doubanio.com/spic/s7058839.jpg","id":"7059709","price":"69.80元","bookNumber":1}]
-</script>
-
+</script> -->
 
 </body>
 </html>
