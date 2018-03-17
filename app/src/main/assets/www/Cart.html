@@ -208,6 +208,7 @@
 	}
 
 	function countPrice(){
+
 		var checkboxlist = getSelectedBookId();
 		Android.showToast(checkboxlist);
 		var printPrice = Android.getSumPrice(checkboxlist);
@@ -216,7 +217,6 @@
 		}else{
 			document.getElementById("sum_price").innerText = printPrice;
 		}
-
 	}
 </script>
 

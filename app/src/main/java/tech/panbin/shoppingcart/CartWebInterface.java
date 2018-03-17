@@ -100,7 +100,7 @@ public class CartWebInterface {
         for (int i = 0; i < bookIdList.length; i++) {
 
             /*根据购物车列表选中的id，找到商品信息*/
-            int position = CartData.searchBookById(bookInCartList.get(i).getId());
+            int position = CartData.searchBookById(bookIdList[i]);
 
             /*为了计算价格，转换商品单价的数据格式*/
             strPrice = bookInCartList.get(position).getPrice();
