@@ -63,7 +63,13 @@ public class CartWebInterface {
         boolean isSuccess = false;
         isSuccess = CartData.alterNumberData(bookId, number);
         if (isSuccess) {
-            Toast.makeText(mContext, "数据更新成功，当前数量为"+number, Toast.LENGTH_SHORT).show();
+            if(number!=0){
+                Toast.makeText(mContext, "数据更新成功，当前数量为"+number, Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(mContext, "数据更新为0，自动删除该商品", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
