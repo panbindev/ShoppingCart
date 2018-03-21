@@ -113,7 +113,7 @@
 		var value = obj.value;
 
 		/*输入值校正*/
-		if(isNaN(parseInt(value))||value<1){
+		if(isNaN(parseInt(value))||value<0){
 			obj.value = 1;
 		}
 		updateData(obj);
@@ -122,12 +122,26 @@
 	/*按钮“-”的功能，数量最小值为1*/
 	function subNumber(obj){
 		var valueObj = obj.nextSibling;
-		var number = valueObj.value;
-		if(number>1)
+		if(valueObj.value>1)
 		{
 			valueObj.value--;
 			updateData(valueObj);
 		}
+
+		if(valueObj.value==1)
+			{
+				valueObj.value=0;
+				deleteForSub(obj);
+			}
+
+	}
+	/*删除函数-给按钮“-” */
+	function deleteForSub(obj){
+		var valueObj = obj.nextSibling;
+		var bookId = valueObj.getAttribute("data-book-id").toString();
+		Android.deleteSeletedProduct(bookId);
+		location.reload();
+		// Android.showToast("数量为0，自动移除该商品")；//与数量提示冲突，不可用
 	}
 
 	/*按钮“+”的功能*/
