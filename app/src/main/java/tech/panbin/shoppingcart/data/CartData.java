@@ -21,6 +21,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public final class CartData {
 
+    /*本地存储标记*/
     private static final String CART_DATA_TAG = "CART_DATA";
     private static final String DATA_LIST_TAG = "BOOKS_IN_CART_LIST";
     private static final String DATA_SAVE_TAG = "CART_DATA_SAVE_BOOLEAN";
