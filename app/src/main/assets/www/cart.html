@@ -59,8 +59,9 @@
 		// jsonData = demo;
 		var jsonData = JSON.parse(Android.loadCartData());
 
-		if(jsonData==null){
-			document.write("<h2>购物车空</h2>");
+
+		if(jsonData==""){
+			document.write("<h2>购物车空空如也，请去商品列表选购</h2>");
 		}
 		else{
 			/*展示购物车数据项*/
