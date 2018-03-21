@@ -84,10 +84,11 @@
 					+'"><button name="add" onclick="addNumber(this)">+</button></td>    </tr></table><br>'
 				);
 			}
-		}
-		/*底端功能栏，全选、删除、清空、总价等。结算按钮仅供展示用*/
+			/*底端功能栏，全选、删除、清空、总价等。结算按钮仅供展示用*/
 		document.write('<table>    <tr>       <td><input type="checkbox" id="select_all_checkbox" name="selectAll" onclick="selectAll(this)" style="white-space: nowrap;">全选</td>       <td><button onclick="deleteItem()" style="white-space: nowrap;">删除所选</button></td>       <td><button onclick="deleteAll()" style="white-space: nowrap;">一键清空</button></td>    </tr>        <tr>        	<td id="sum_text" >总价：</td>             	<td id="sum_price">0.00元</td>         	<td><button id="pay">结算</button></td>    </tr></table>');
 		document.write('<style type="text/css">#sum_text{vertical-align:bottom; font-size:150%;text-align: right} #sum_price{	white-space: nowrap; vertical-align:bottom; color:red;font-size:200%;text-align: right} #pay{	white-space: nowrap; vertical-align:bottom; color:red;font-size:200%;text-align: right}</style>');
+		}
+
 	}
 </script>
 
