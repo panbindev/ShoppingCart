@@ -79,9 +79,9 @@
 					+jsonData[i].price
 					+'</td>    </tr>    <tr>        <td><button name="sub" onclick="subNumber(this)">-</button><input type="text" name="number" value="'
 					+jsonData[i].bookNumber
-					+'" size="3" Maxlength="5" style="text-align: center;" onchange="changeNumber(this)" data-book-id="'
+					+'" size="3" Maxlength="5" style="text-align: center;"  data-book-id="'
 					+jsonData[i].id
-					+'"><button name="add" onclick="addNumber(this)">+</button></td>    </tr></table><br>'
+					+'" readonly="readonly"><button name="add" onclick="addNumber(this)">+</button></td>    </tr></table><br>'
 				);
 			}
 			/*底端功能栏，全选、删除、清空、总价等。结算按钮仅供展示用*/
@@ -108,32 +108,33 @@
 		Android.alterProductNumber(bookId,number);
 	}
 
+	/*改为不可手动修改，故改法失效*/
 	/*输入商品数量时调用*/
-	function changeNumber(obj){
-		var value = obj.value;
+	// function changeNumber(obj){
+	// 	var value = obj.value;
 
-		/*输入值校正*/
-		if(isNaN(parseInt(value))||value<0){
-			obj.value = 1;
-		}
-		updateData(obj);
-	}
+	// 	/*输入值校正*/
+	// 	if(isNaN(parseInt(value))||value<0){
+	// 		obj.value = 1;
+	// 	}
+	// 	updateData(obj);
+
+
+	// }
 
 	/*按钮“-”的功能，数量最小值为1*/
 	function subNumber(obj){
 		var valueObj = obj.nextSibling;
-		if(valueObj.value>1)
+		if(valueObj.value>=1)
 		{
 			valueObj.value--;
 			updateData(valueObj);
 		}
 
-		if(valueObj.value==1)
-			{
-				valueObj.value=0;
-				deleteForSub(obj);
-			}
-
+		if(valueObj.value==0)
+		{
+			deleteForSub(obj);
+		}
 	}
 	/*删除函数-给按钮“-” */
 	function deleteForSub(obj){
