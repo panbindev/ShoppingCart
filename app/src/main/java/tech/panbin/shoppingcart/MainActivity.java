@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
 import tech.panbin.shoppingcart.data.CartData;
 
@@ -37,15 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private WebView myWebView;
     private WebSettings webSettings;
 
-    private TextView titleTextView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        titleTextView= (TextView) findViewById(android.R.id.title);
-//        titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         setTitle(R.string.title_list);
 
         /*载入数据*/
